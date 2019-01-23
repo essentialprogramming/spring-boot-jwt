@@ -4,7 +4,10 @@ Spring Boot JWT sample application is designed to incorporate a Resource Server 
 
 ## Overview
 
-![oauth-diagram-implicit-spring-jwt](doc/oauth-diagram-implicit-spring-jwt.png)
+The authorization flow is implemented by following the OAuth 2.0 specification. As the client is represented by a browser in our scenario which cannot store the users's credentials in a secure way, the Implicit grant is used to return the token directly. 
+More about OAuth2 specification and flows [here](https://github.com/digital-consulting/oauth2) 
+
+![oauth-diagram-implicit-spring-jwt](doc/oauth-diagram-implicit-spring-jwt.png) 
 
 
 ## Resource (Web) server
