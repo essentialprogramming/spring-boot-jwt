@@ -11,8 +11,8 @@ Spring Boot JWT sample application is designed to incorporate a Resource Server 
 
 The Resource Server's endpoints are protected from external request and are only accessible with valid JWT token emitted by the Auth Server.
 The verification process consists in a filter chain containing the following two filters:
-* **Cookie verification filter**: in case of previous successful token authorization a token is set in the Cookie and for further request the Cookie is verified first. If it exists and it contain a valid JWT token, authorization is successful, else the filter chain jumps to the following filter: 
-* **JWT token verification filter**: if no successful Cookie authorization happened before the token verification filter checks if a valid JWT token is present as URL parameter. If not, the filter redirects to the Auth server, otherwise authentication is considered successful.
+* **Cookie verification filter**: for every incoming request for the protected resources Cookie is verified first. If it exists and it contain a valid JWT token, authorization is successful, else the filter chain jumps to the following filter: 
+* **JWT token verification filter**: if no successful Cookie authorization happened before the token verification filter checks if a valid JWT token is present as URL parameter. If not, the filter redirects to the Auth server, otherwise authentication is considered successful and a JWT token is set on the Cookie.
  
 ## Auth server
 
