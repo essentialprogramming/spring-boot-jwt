@@ -14,7 +14,7 @@ public class TokenUtil {
 
 	public static Optional<Claims> parse(String token) {
 		if (token == null) {
-			Optional.empty();
+			return Optional.empty();
 		}
 		try {
 			return Optional.of(
@@ -40,12 +40,11 @@ public class TokenUtil {
 		//Let's set the JWT Claims
 		return Jwts.builder()
 				.setSubject(subject)
-				.setIssuedAt(new Date())
+				.setIssuedAt(now)
 				.setIssuer("issuer")
 				.setExpiration(expirationDate)
 				.signWith(signatureAlgorithm, signingKey)
 				.compact();
-
 	}
 
 }
