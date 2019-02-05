@@ -59,7 +59,7 @@ public class SecurityConfig {
 		}
 	}
 
-	@Configuration
+	/*@Configuration
 	@Order(2)
 	public static class AuthenticatorConfig extends WebSecurityConfigurerAdapter {
 
@@ -72,5 +72,5 @@ public class SecurityConfig {
 					.addFilter(new JWTAuthenticationFilter(authenticationManager()))
 					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		}
-	}
+	}*/
 }
