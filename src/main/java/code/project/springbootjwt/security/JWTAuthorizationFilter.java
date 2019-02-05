@@ -33,9 +33,6 @@ import static code.project.springbootjwt.security.SecurityConstants.TOKEN;
 
 public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilter {
 
-	@Autowired
-	private Auth0 auth0;
-
 	private AuthenticationManager authenticateManager;
 	private String authRedirectUrl;
 
