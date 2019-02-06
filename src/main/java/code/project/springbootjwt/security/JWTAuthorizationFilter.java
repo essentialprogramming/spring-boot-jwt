@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -61,7 +62,7 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
 					if (tok != null) {
 						try {
 							response.sendRedirect("http://localhost:8081/tasks"  + "?token=" + tok);
-							return bearerToken;
+							return null;
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -100,9 +101,7 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
 		}*/
 		//auth0.getDomain();
 
-
     	response.sendRedirect(getRedirectUrl(request));
-
 	}
 
 	@Override protected final void successfulAuthentication(
@@ -134,17 +133,17 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
 			authResult = attemptAuthentication(request, response);
 			if (authResult == null) {
 				return;
+			} else if (authResult.isAuthenticated() == false) {
+				throw new AuthenticationServiceException("Not authenticated");
 			} else {
 				successfulAuthentication(request, response, chain, authResult);
 			}
 		} catch (InternalAuthenticationServiceException failed) {
 			logger.error("An internal error occurred while trying to authenticate the user.", failed);
 			unsuccessfulAuthentication(request, response, failed);
-
 			return;
 		} catch (AuthenticationException failed) {
 			unsuccessfulAuthentication(request, response, failed);
-			return;
 		}
 	}
 
