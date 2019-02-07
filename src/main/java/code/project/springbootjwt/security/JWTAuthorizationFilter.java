@@ -1,13 +1,8 @@
 package code.project.springbootjwt.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -38,9 +33,7 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
 	private String authRedirectUrl;
 
 	public JWTAuthorizationFilter(
-			AuthenticationManager authManager,
-			String defaultFilterProcessesUrl,
-			String authRedirectUrl) {
+			AuthenticationManager authManager, String defaultFilterProcessesUrl, String authRedirectUrl) {
 		super(defaultFilterProcessesUrl);
 		this.authenticateManager = authManager;
 		this.authRedirectUrl = authRedirectUrl;
@@ -82,8 +75,12 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpEntity<TokenRequest> request = new HttpEntity<>(new TokenRequest("authorization_code", "P00ww7P2MD0Ir9hCYPWmYa0QmJNsOh5l", "LU8GC2Ae1dAV25N_Ttitj_VkWRDTBbid3F3q6lP8sD_gQ9QMenxpm1tY_KG0bLWS", code, "http://localhost:8081/tasks"));
-		TokenResponse tokenResponse = restTemplate.postForObject("https://ovidiu-lapusan.eu.auth0.com/oauth/token", request, TokenResponse.class);
+		HttpEntity<TokenRequest> request = new HttpEntity<>(
+				new TokenRequest("authorization_code", "P00ww7P2MD0Ir9hCYPWmYa0QmJNsOh5l",
+						"LU8GC2Ae1dAV25N_Ttitj_VkWRDTBbid3F3q6lP8sD_gQ9QMenxpm1tY_KG0bLWS", code,
+						"http://localhost:8081/tasks"));
+		TokenResponse tokenResponse = restTemplate
+				.postForObject("https://ovidiu-lapusan.eu.auth0.com/oauth/token", request, TokenResponse.class);
 		return tokenResponse.getAccess_token();
 	}
 
@@ -105,10 +102,7 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
 	}
 
 	@Override protected final void successfulAuthentication(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			FilterChain chain,
-			Authentication authResult)
+			HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
 			throws IOException, ServletException {
 		response.addCookie(CookieUtil.createHTTPOnlyCookie(HttpHeaders.AUTHORIZATION, request.getParameter(TOKEN)));
 		SecurityContextHolder.getContext().setAuthentication(authResult);
@@ -158,6 +152,7 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
 		parameters.put("client_id", "P00ww7P2MD0Ir9hCYPWmYa0QmJNsOh5l");
 		parameters.put("client_secret", "LU8GC2Ae1dAV25N_Ttitj_VkWRDTBbid3F3q6lP8sD_gQ9QMenxpm1tY_KG0bLWS");
 		parameters.put("redirect_uri", redirectUri);
+		parameters.put("audience", "/tasks-endpoint");
 
 		String params = getParamsString(parameters);
 		return authUrl.concat(params);

@@ -15,7 +15,7 @@ public class TokenVerifier implements AuthenticationManager {
 	@Override
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
-		authentication.setAuthenticated(isTokenValid.apply(authentication));
+		authentication.setAuthenticated(isTokenValid.apply(authentication.getPrincipal()));
 		return authentication;
 	}
 }
