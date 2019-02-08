@@ -5,8 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ public class TokenUtil {
 		try {
 			return Optional.of(
 					Jwts.parser()
-							.setSigningKey(DatatypeConverter.parseBase64Binary(SecurityConstants.SECRET))
+							.setSigningKey(Base64.getDecoder().decode(SecurityConstants.SECRET))
 							.parseClaimsJws(token).getBody());
 		} catch (Exception e) {
 			return Optional.empty();
@@ -33,8 +33,8 @@ public class TokenUtil {
 		long nowMillis = System.currentTimeMillis();
 		Date now = new Date(nowMillis);
 
-		//We will sign our JWT with our ApiKey secret
-		byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SecurityConstants.SECRET);
+		// We will sign our JWT with our ApiKey secret
+		byte[] apiKeySecretBytes = Base64.getEncoder().encode(SecurityConstants.SECRET.getBytes());
 		Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
 		//Let's set the JWT Claims
