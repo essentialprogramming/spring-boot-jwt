@@ -1,9 +1,10 @@
 package code.project.springbootjwt.controller;
 
-import code.project.springbootjwt.model.ApplicationUser;
 import code.project.springbootjwt.repository.ApplicationUserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
@@ -20,17 +21,6 @@ public class UserController {
 
     @GetMapping("/login")
     public String login() {
-        return "a";
-    }
-
-    @PostMapping("/sign-up")
-    public void signUp(@RequestBody ApplicationUser user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        applicationUserRepository.save(user);
-    }
-
-    @GetMapping("/sign-up")
-    public String signUpg() {
-        return "a";
+        return "This is a successful login message.";
     }
 }

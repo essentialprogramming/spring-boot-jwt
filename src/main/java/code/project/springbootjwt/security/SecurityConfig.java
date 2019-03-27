@@ -34,8 +34,8 @@ public class SecurityConfig {
 
 		void initUserRepository() {
 			ApplicationUser user = new ApplicationUser();
-			user.setUsername("razvan");
-			user.setPassword(bCryptPasswordEncoder.encode("razvan"));
+			user.setUsername("test");
+			user.setPassword(bCryptPasswordEncoder.encode("test"));
 			applicationUserRepository.save(user);
 		}
 
