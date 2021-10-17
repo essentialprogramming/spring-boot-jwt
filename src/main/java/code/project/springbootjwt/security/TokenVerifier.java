@@ -8,8 +8,8 @@ import java.util.function.Function;
 
 public class TokenVerifier implements AuthenticationManager {
 
-	private Function<Object, Boolean> isTokenValid = (token -> TokenUtil.parse(String.valueOf(token))
-			.map(claims -> true) // for now just check if was parsed succesfuly
+	private final Function<Object, Boolean> isTokenValid = (token -> TokenUtil.parse(String.valueOf(token))
+			.map(claims -> true) // for now just check if was parsed successfully
 			.orElse(false));
 
 	@Override

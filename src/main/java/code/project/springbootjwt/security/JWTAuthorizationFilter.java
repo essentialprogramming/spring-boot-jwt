@@ -21,8 +21,8 @@ import static code.project.springbootjwt.security.SecurityConstants.TOKEN;
 
 public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilter {
 
-	private AuthenticationManager authenticateManager;
-	private String authRedirectUrl;
+	private final AuthenticationManager authenticateManager;
+	private final String authRedirectUrl;
 
     public JWTAuthorizationFilter(AuthenticationManager authManager, String defaultFilterProcessesUrl, String authRedirectUrl) {
         super(defaultFilterProcessesUrl);
@@ -45,9 +45,9 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
 		}
 	}
 
-	@Override protected void unsuccessfulAuthentication(
-			HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
-			throws IOException {
+	@Override protected void unsuccessfulAuthentication(HttpServletRequest request,
+														HttpServletResponse response,
+														AuthenticationException failed) throws IOException {
 		SecurityContextHolder.getContext().setAuthentication(new BearerToken());
     	String redirectUri = request.getRequestURI();
     	if (redirectUri != null) {
@@ -91,10 +91,8 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
 			logger.error("An internal error occurred while trying to authenticate the user.", failed);
 			unsuccessfulAuthentication(request, response, failed);
 
-			return;
 		} catch (AuthenticationException failed) {
 			unsuccessfulAuthentication(request, response, failed);
-			return;
 		}
 	}
 }

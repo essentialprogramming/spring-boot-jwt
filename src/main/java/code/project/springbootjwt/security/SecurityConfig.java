@@ -21,12 +21,11 @@ public class SecurityConfig {
 	@Order(1)
 	public static class JWTConfig extends WebSecurityConfigurerAdapter {
 
-		private BCryptPasswordEncoder bCryptPasswordEncoder;
-		private ApplicationUserRepository applicationUserRepository;
+		private final BCryptPasswordEncoder bCryptPasswordEncoder;
+		private final ApplicationUserRepository applicationUserRepository;
 
-		public JWTConfig(
-				BCryptPasswordEncoder bCryptPasswordEncoder,
-				ApplicationUserRepository applicationUserRepository) {
+		public JWTConfig(BCryptPasswordEncoder bCryptPasswordEncoder,
+						 ApplicationUserRepository applicationUserRepository) {
 			this.applicationUserRepository = applicationUserRepository;
 			this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 			initUserRepository();
