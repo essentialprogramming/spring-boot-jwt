@@ -24,8 +24,7 @@ public class SecurityConfig {
 		private final BCryptPasswordEncoder bCryptPasswordEncoder;
 		private final ApplicationUserRepository applicationUserRepository;
 
-		public JWTConfig(BCryptPasswordEncoder bCryptPasswordEncoder,
-						 ApplicationUserRepository applicationUserRepository) {
+		public JWTConfig(BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationUserRepository applicationUserRepository) {
 			this.applicationUserRepository = applicationUserRepository;
 			this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 			initUserRepository();
@@ -42,13 +41,13 @@ public class SecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.antMatcher(TASKS_URL)
 					.cors().disable()
-					.addFilter(new CookieAuthorizationFilter(getAM(), getRememberMe()))
-					.addFilterAfter(new JWTAuthorizationFilter(getAM(), TASKS_URL, LOGIN_URL), CookieAuthorizationFilter.class)
+					.addFilter(new CookieAuthorizationFilter(getAuthenticationManager(), getRememberMe()))
+					.addFilterAfter(new JWTAuthorizationFilter(getAuthenticationManager(), TASKS_URL, LOGIN_URL), CookieAuthorizationFilter.class)
 					.rememberMe().alwaysRemember(true);
 		}
 
 		@Bean
-		public AuthenticationManager getAM() {
+		public AuthenticationManager getAuthenticationManager() {
 			return new TokenVerifier();
 		}
 

@@ -13,8 +13,7 @@ public class TokenVerifier implements AuthenticationManager {
 			.orElse(false));
 
 	@Override
-	public Authentication authenticate(Authentication authentication)
-			throws AuthenticationException {
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		authentication.setAuthenticated(isTokenValid.apply(authentication));
 		return authentication;
 	}
