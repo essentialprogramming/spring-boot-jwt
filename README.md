@@ -25,7 +25,7 @@ The Auth server uses a Basic authentication with an implicit full access authori
 
 1. Start the application via IDE, running SpringBootJwtApplication.main, or by command line: java -jar build/libs/spring-boot-jwt-0.0.1-SNAPSHOT.jar;
 1. Access the secured endpoint via: http://localhost:8081/tasks;
-1. The /tasks endpoint is secured by basic authentication, so the user has to authenticate before being able to access the protected endpoint: username: test, password: test;
+1. The /users/login endpoint is secured by basic authentication, so the user has to authenticate before being able to access the protected endpoint: Username: test, Password: test;
 1. In case of successful authentication the server provides a JWT token and will redirect to the /tasks endpoint with the token as request parameter;
 1. In case of valid JWT token the server will respond with a JSON response and add a cookie with the included token, otherwise will redirect to basic authentication;
 1. For further requests (for ex: refresh page) the token from the cookie will be verified first. It can be checked by removing the token request parameter from the URL.
