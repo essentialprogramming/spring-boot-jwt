@@ -30,13 +30,14 @@ public class CookieAuthorizationFilter extends RememberMeAuthenticationFilter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 
-		Authentication rememberMeAuth = rememberMeServices.autoLogin(request, response);
-		SecurityContextHolder.getContext().setAuthentication(rememberMeAuth);
+		BearerToken rememberMeToken = (BearerToken) rememberMeServices.autoLogin(request, response);
+		SecurityContextHolder.getContext().setAuthentication(rememberMeToken);
 
-		if (rememberMeAuth.getPrincipal() != null) {
-			Authentication authentication = authenticationManager.authenticate(rememberMeAuth);
+		if (rememberMeToken.isTokenPresent()) {
+			Authentication authentication = authenticationManager.authenticate(rememberMeToken);
 			if (authentication.isAuthenticated()) {
-				((BearerToken) authentication).setCookieAuthentified(true);
+				BearerToken token = (BearerToken) authentication;
+				token.setPresentInCookie(true);
 			}
 		}
 

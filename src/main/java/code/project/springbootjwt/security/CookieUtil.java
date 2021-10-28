@@ -30,7 +30,7 @@ public class CookieUtil {
 	public static Cookie createHTTPOnlyCookie(String name, String value) {
 		final Cookie cookie = new Cookie(name, value);
 		cookie.setHttpOnly(true);
-		cookie.setMaxAge(20);
+		cookie.setMaxAge(-1);
 		return cookie;
 	}
 }

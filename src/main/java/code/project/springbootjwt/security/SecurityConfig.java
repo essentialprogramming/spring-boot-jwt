@@ -48,7 +48,7 @@ public class SecurityConfig {
 
 		@Bean
 		public AuthenticationManager getAuthenticationManager() {
-			return new TokenVerifier();
+			return new JWTAuthenticationManager();
 		}
 
 		@Bean

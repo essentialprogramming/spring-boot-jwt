@@ -33,7 +33,7 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         BearerToken bearerToken = (BearerToken) SecurityContextHolder.getContext().getAuthentication();
-        if (bearerToken.isCookieAuthentified()) {
+        if (bearerToken.isPresentInCookie()) {
             return bearerToken;
         } else {
             String token = request.getParameter(TOKEN);
@@ -72,7 +72,7 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
 
         BearerToken bearerToken = (BearerToken) SecurityContextHolder.getContext().getAuthentication();
 
-        if (!requiresAuthentication(request, response) || bearerToken.isCookieAuthentified()) {
+        if (!requiresAuthentication(request, response) || bearerToken.isPresentInCookie()) {
             chain.doFilter(request, response);
             return;
         }
@@ -80,10 +80,11 @@ public class JWTAuthorizationFilter extends AbstractAuthenticationProcessingFilt
         Authentication authResult;
         try {
             authResult = attemptAuthentication(request, response);
-            if (authResult == null) {
-                return;
-            } else {
+            if (authResult.isAuthenticated()){
                 successfulAuthentication(request, response, chain, authResult);
+            }
+            else {
+                unsuccessfulAuthentication(request, response, null);
             }
         } catch (InternalAuthenticationServiceException failed) {
             logger.error("An internal error occurred while trying to authenticate the user.", failed);

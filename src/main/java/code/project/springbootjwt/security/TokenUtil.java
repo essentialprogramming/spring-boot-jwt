@@ -17,9 +17,10 @@ public class TokenUtil {
 			return Optional.empty();
 		}
 		try {
+			byte[] apiKeySecretBytes = Base64.getEncoder().encode(SecurityConstants.SECRET.getBytes());
 			return Optional.of(
 					Jwts.parser()
-							.setSigningKey(Base64.getDecoder().decode(SecurityConstants.SECRET))
+							.setSigningKey(apiKeySecretBytes)
 							.parseClaimsJws(token).getBody());
 		} catch (Exception e) {
 			return Optional.empty();
@@ -41,7 +42,7 @@ public class TokenUtil {
 		return Jwts.builder()
 				.setSubject(subject)
 				.setIssuedAt(now)
-				.setIssuer("issuer")
+				.setIssuer("Spring Boot Authorization Server")
 				.setExpiration(expirationDate)
 				.signWith(signatureAlgorithm, signingKey)
 				.compact();

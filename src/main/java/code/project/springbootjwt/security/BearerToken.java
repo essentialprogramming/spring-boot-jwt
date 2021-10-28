@@ -5,8 +5,8 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 public class BearerToken extends AbstractAuthenticationToken{
 
 	private static final long serialVersionUID = 1L;
-	private final Object bearer;
-	private boolean isCookieAuthentified = false;
+	private final String bearer;
+	private boolean isPresentInCookie = false;
 
 	public BearerToken() {
 		super(null);
@@ -14,26 +14,34 @@ public class BearerToken extends AbstractAuthenticationToken{
 		setAuthenticated(false);
 	}
 	
-	public BearerToken(Object token) {
+	public BearerToken(String token) {
 		super(null);
 		this.bearer = token;
 	}
 
 	@Override
 	public Object getCredentials() {
-		return bearer;
+		return "No password on JWT Authorization Flow";
 	}
 
 	@Override
 	public Object getPrincipal() {
+		return "Principal";
+	}
+
+	public boolean isPresentInCookie() {
+		return isPresentInCookie;
+	}
+
+	public boolean isTokenPresent(){
+		return bearer != null;
+	}
+
+	public String getJWT(){
 		return bearer;
 	}
 
-	public boolean isCookieAuthentified() {
-		return isCookieAuthentified;
-	}
-
-	public void setCookieAuthentified(boolean cookieAuthentified) {
-		isCookieAuthentified = cookieAuthentified;
+	public void setPresentInCookie(boolean presentInCookie) {
+		isPresentInCookie = presentInCookie;
 	}
 }
